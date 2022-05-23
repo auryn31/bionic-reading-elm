@@ -5163,6 +5163,7 @@ var $author$project$Main$update = F2(
 			$elm$core$Platform$Cmd$none);
 	});
 var $author$project$Main$UpdateContent = $elm$core$Basics$identity;
+var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$core$List$append = F2(
 	function (xs, ys) {
 		if (!ys.b) {
@@ -5179,7 +5180,6 @@ var $elm$core$List$concatMap = F2(
 		return $elm$core$List$concat(
 			A2($elm$core$List$map, f, list));
 	});
-var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$b = _VirtualDom_node('b');
 var $elm$core$String$filter = _String_filter;
 var $elm$core$Basics$neq = _Utils_notEqual;
@@ -5318,14 +5318,23 @@ var $author$project$Main$formatWordAndAddWhiteSpace = function (word) {
 			[$author$project$Main$whiteSpace]),
 		formatedWord);
 };
-var $author$project$Main$contentView = function (content) {
+var $author$project$Main$paragraphView = function (paragraph) {
 	return A2(
 		$elm$html$Html$div,
 		_List_Nil,
 		A2(
 			$elm$core$List$concatMap,
 			$author$project$Main$formatWordAndAddWhiteSpace,
-			A2($elm$core$String$split, ' ', content)));
+			A2($elm$core$String$split, ' ', paragraph)));
+};
+var $author$project$Main$contentView = function (content) {
+	return A2(
+		$elm$html$Html$div,
+		_List_Nil,
+		A2(
+			$elm$core$List$map,
+			$author$project$Main$paragraphView,
+			A2($elm$core$String$split, '\n', content)));
 };
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');

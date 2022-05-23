@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, b, div, h1, h3, span, text, textarea)
+import Html exposing (Html, b, div, h1, h3, p, span, text, textarea)
 import Html.Attributes exposing (placeholder, style)
 import Html.Events exposing (onInput)
 
@@ -83,7 +83,12 @@ view model =
 
 contentView : String -> Html msg
 contentView content =
-    String.split " " content |> List.concatMap formatWordAndAddWhiteSpace |> div []
+    String.split "\n" content |> List.map paragraphView |> div []
+
+
+paragraphView : String -> Html msg
+paragraphView paragraph =
+    String.split " " paragraph |> List.concatMap formatWordAndAddWhiteSpace |> div []
 
 
 formatWordAndAddWhiteSpace : String -> List (Html msg)
