@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser as Browser
 import Html exposing (Html, b, div, h1, h3, h4, input, text, textarea)
-import Html.Attributes exposing (max, min, placeholder, style, type_, value)
+import Html.Attributes exposing (placeholder, style, type_, value)
 import Html.Events exposing (onInput)
 
 
@@ -27,10 +27,6 @@ type alias Model =
     { content : String
     , fontSize : Int
     }
-
-
-
--- "Bionic Reading is a new method facilitating the reading process by guiding the eyes through text points. As a result, the reader is only focusing on the highlighted initial letters and letz the brain center complete the word. In a digital world dominated by shallow forms of reading, Bionic Reading aims to encourage a more in-depth reading and understanding of written content."
 
 
 init : () -> ( Model, Cmd Msg )
