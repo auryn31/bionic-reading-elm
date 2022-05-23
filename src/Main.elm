@@ -1,8 +1,8 @@
 module Main exposing (..)
 
-import Browser
-import Html exposing (Html, b, div, h1, h3, p, span, text, textarea)
-import Html.Attributes exposing (placeholder, style)
+import Browser as Browser
+import Html exposing (Html, b, div, h1, h3, h4, input, text, textarea)
+import Html.Attributes exposing (max, min, placeholder, style, type_, value)
 import Html.Events exposing (onInput)
 
 
@@ -25,6 +25,7 @@ main =
 
 type alias Model =
     { content : String
+    , fontSize : Int
     }
 
 
@@ -34,7 +35,7 @@ type alias Model =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model "Start typing..."
+    ( Model "Start typing..." 100
     , Cmd.none
     )
 
@@ -45,6 +46,7 @@ init _ =
 
 type Msg
     = UpdateContent String
+    | UpdateFontSize String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -52,6 +54,11 @@ update msg model =
     case msg of
         UpdateContent content ->
             ( { model | content = content }
+            , Cmd.none
+            )
+
+        UpdateFontSize fontSize ->
+            ( { model | fontSize = Maybe.withDefault 100 (String.toInt fontSize) }
             , Cmd.none
             )
 
@@ -74,9 +81,23 @@ view model =
     div
         [ style "padding" "2rem" ]
         [ h1 [] [ text "Bionic Reading Elm" ]
+        , div []
+            [ h4 []
+                [ text "Font-Size:" ]
+            , input
+                [ onInput UpdateFontSize, type_ "range", Html.Attributes.min "100", Html.Attributes.max "500", value (String.fromInt model.fontSize) ]
+                []
+            , text (String.fromInt model.fontSize ++ "%")
+            ]
         , div [ style "display" "flex", style "flex-direction" "row", style "gap" "1rem" ]
-            [ div [ style "flex" "1" ] [ h3 [] [ text "Insert Text:" ], textarea [ style "min-height" "30vh", onInput UpdateContent, placeholder model.content ] [] ]
-            , div [ style "flex" "1" ] [ h3 [] [ text "Read Text:" ], contentView model.content ]
+            [ div [ style "flex" "1" ]
+                [ h3 [] [ text "Insert Text:" ]
+                , textarea [ style "min-height" "30vh", onInput UpdateContent, placeholder model.content ] []
+                ]
+            , div [ style "flex" "1" ]
+                [ h3 [] [ text "Read Text:" ]
+                , div [ style "font-size" (String.fromInt model.fontSize ++ "%") ] [ contentView model.content ]
+                ]
             ]
         ]
 
